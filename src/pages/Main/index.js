@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Keyboard, ActivityIndicator} from 'react-native';
+import {Alert, Keyboard, ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
@@ -22,7 +22,7 @@ export default class Main extends Component {
   constructor() {
     super();
     this.state = {
-      newUser: 'evandrocustodio',
+      newUser: '',
       users: [],
       loading: false,
     };
@@ -46,7 +46,6 @@ export default class Main extends Component {
 
   handleNavigate = user => {
     const {navigation} = this.props;
-
     navigation.navigate('User', {user});
   };
 
@@ -56,22 +55,31 @@ export default class Main extends Component {
     this.setState({
       loading: true,
     });
-    console.tron.log(newUser);
+    if (newUser) {
+      const response = await api.get(`users/${newUser}`);
 
-    const response = await api.get(`users/${newUser}`);
-
-    const data = {
-      name: response.data.name,
-      login: response.data.login,
-      bio: response.data.bio,
-      avatar: response.data.avatar_url,
-    };
-    this.setState({
-      users: [...users, data],
-      newUser: '',
-      loading: false,
-    });
-    Keyboard.dismiss();
+      const data = {
+        name: response.data.name,
+        login: response.data.login,
+        bio: response.data.bio,
+        avatar: response.data.avatar_url,
+      };
+      this.setState({
+        users: [...users, data],
+        newUser: '',
+        loading: false,
+      });
+      Keyboard.dismiss();
+    } else {
+      // Works on both iOS and Android
+      Alert.alert('', 'Informe o usuário github', [{text: 'OK'}], {
+        cancelable: false,
+      });
+      this.setState({
+        newUser: '',
+        loading: false,
+      });
+    }
   };
 
   render() {
@@ -114,7 +122,7 @@ export default class Main extends Component {
                   color="#FFF"
                 />
 
-                <ProfileButtonText>Ver Profile </ProfileButtonText>
+                <ProfileButtonText>Ver Perfil </ProfileButtonText>
               </ProfileButton>
             </User>
           )}

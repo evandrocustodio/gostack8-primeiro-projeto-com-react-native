@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import {TouchableOpacity} from 'react-native';
 import {RectButton} from 'react-native-gesture-handler';
 
 export const Container = styled.View`
@@ -26,7 +27,7 @@ export const Input = styled.TextInput.attrs({
   border: 1px solid #eee;
 `;
 
-export const SubmitButton = styled(RectButton)`
+export const SubmitButton = styled(TouchableOpacity)`
   justify-content: center;
   align-items: center;
   background: #7159c1;
@@ -37,7 +38,7 @@ export const SubmitButton = styled(RectButton)`
 `;
 
 export const List = styled.FlatList.attrs({
-  showsVerticalIndicator: false,
+  showsVerticalScrollIndicator: false,
 })`
   margin-top: 20px;
 `;
@@ -68,7 +69,7 @@ export const Bio = styled.Text.attrs({
   margin-top: 5px;
   text-align: center;
 `;
-export const ProfileButton = styled(RectButton)`
+export const ProfileButton = styled(TouchableOpacity)`
   margin-top: 10px;
   align-self: stretch;
   border-radius: 4px;
